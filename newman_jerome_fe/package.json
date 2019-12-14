@@ -1,0 +1,18 @@
+{
+  "name": "newman_jerome_fe",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack -p"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.1.0",
+    "react-redux": "^7.1.3"
+  },
+  "devDependencies": {
+    "redux-devtools": "^3.5.0"
+  }
+}
