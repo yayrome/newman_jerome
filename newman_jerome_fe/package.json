@@ -1,18 +1,54 @@
 {
   "name": "newman_jerome_fe",
   "version": "0.0.1-SNAPSHOT",
-  "description": "",
+  "description": "Contact App for Job Hunt",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack -p"
+    "build": "webpack -p --mode production --env.PLATFORM=production --env.version=stag",
+    "dev_build": "webpack -p --mode development --env.PLATFORM=local --env.version=stag",
+    "dev": "webpack-dev-server --mode development --open --hot --inline --historyApiFallback=true --env.PLATFORM=local --env.version=stag"
   },
-  "author": "",
+  "author": "Jerome Marcellus Newman",
   "license": "ISC",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.1.0",
-    "react-redux": "^7.1.3"
+    "@babel/polyfill": "^7.4.3",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.4.1",
+    "connected-react-router": "^5.0.1",
+    "history": "^4.10.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.4",
+    "sqlite": "^3.0.3",
+    "webpack": "^4.41.2",
+    "webpack-dev-server": "^3.9.0"
   },
   "devDependencies": {
-    "redux-devtools": "^3.5.0"
+    "@babel/core": "^7.7.5",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
+    "classnames": "^2.2.6",
+    "clean-webpack-plugin": "^2.0.1",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jquery": "^3.4.1",
+    "mini-css-extract-plugin": "^0.5.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "popper.js": "^1.16.0",
+    "redux-devtools": "^3.5.0",
+    "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "webpack-cli": "^3.3.10"
   }
 }
