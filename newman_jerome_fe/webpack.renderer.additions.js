@@ -2,47 +2,34 @@ const webpack = require("webpack");
 const packageJSON = require('./package.json');
 const path = require("path");
 
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const PATHS = {
     build: path.join(__dirname, 'target', 'classes', 'META-INF', 'resources', 'webjars', packageJSON.name, packageJSON.version)
 };
 
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-//
-// module.exports = {
-//     entry: './app/index.js',
-//
-//     output: {
-//         path: PATHS.build,
-//         filename: 'app-bundle.js'
-//     }
-// };
-
 module.exports = (env) => {
-    const {PLATFORM, VERSION} = env;
+    const {PLATFORM} = env;
     return {
+        devtool: 'inline-source-map',
+        target: 'electron-renderer',
         entry: [
             "@babel/polyfill",
-            path.resolve(__dirname, "src", "index.js")],
-        output: {
-            path: PATHS.build,
-            filename: "bundle.js",
-        },
-        resolve: {
-            extensions: [".js", ".jsx"],
-            // alias: {
-            //     styles: path.resolve(__dirname, "src", "styles"),
-            // },
-        },
+            path.resolve(__dirname, "src", "renderer", "index.jsx")],
+
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: [/\.js$/, /\.jsx$/],
                     exclude: /node_modules/,
                     use: {
                         loader: "babel-loader",
-                        options: {presets: ["@babel/react", "@babel/env"]},
+                        options: {
+                            presets: ["@babel/react", "@babel/env"],
+                            cacheDirectory: true
+                        },
                     },
                 },
                 {
@@ -51,15 +38,19 @@ module.exports = (env) => {
                         PLATFORM === "production" ? MiniCssExtractPlugin.loader : "style-loader",
                         "css-loader",
                     ],
-                },
-            ],
+                }
+            ]
         },
+        resolve: {
+            extensions: ['.js', '.jsx', '.json'],
+            modules: [path.join(__dirname, 'src', 'renderer'), 'node_modules']
+        },
+        // externals: { 'sqlite3':'commonjs sqlite3'},
         plugins: [
             new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns: ["assets", PATHS.build],
             }),
             new HtmlWebPackPlugin({
-                template: path.resolve(__dirname, "src", "index.html"),
                 filename: path.resolve(PATHS.build, "index.html"),
             }),
             new webpack.DefinePlugin({
@@ -67,9 +58,5 @@ module.exports = (env) => {
                 "process.env.PLATFORM": JSON.stringify(env.PLATFORM),
             }),
         ],
-        devServer: {
-            contentBase: "./src",
-        },
     }
-
-};
+}

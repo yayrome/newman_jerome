@@ -12,10 +12,10 @@ import {
 } from "redux";
 import {Provider} from "react-redux";
 // import { routerMiddleware } from 'react-router-redux'
-import { ConnectedRouter, connectRouter  } from 'connected-react-router'
+import {ConnectedRouter, connectRouter} from 'connected-react-router'
 import {createBrowserHistory} from "history"
 // import createHistory from "history/createBrowserHistory";
-import reducers from "./redux/reducers/index";
+import reducers from "./redux/reducers";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // Create a history of your choosing (we"re using a browser history in this case)
@@ -36,6 +36,9 @@ const store = createStore(
         ),
     ),
 );
+
+import AppDAO from "./dao/dao";
+import ContactRepository from "./dao/contactDao";
 import Home from "./modules/views/home";
 import ErrorBoundary from "./modules/ErrorBoundary";
 
@@ -53,15 +56,10 @@ export default class App extends React.Component {
         this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     }
 
-    handleTextFieldChange(event) {
-        const key = event.target.id;
-        const value = event.target.value;
-
-        this.setState({key, value});
-    }
-
-    createContact() {
-        // create new contact
+    componentDidMount() {
+        const dao = new AppDAO('./database.sqlite3');
+        const projectRepo = new ContactRepository(dao);
+        projectRepo.createTable();
     }
 
     render() {
@@ -71,19 +69,16 @@ export default class App extends React.Component {
 
                 <Provider store={store}>
                     { /* ConnectedRouter will use the store from Provider automatically */}
-                  {/*//  <ConnectedRouter history={history}>*/}
-                        <main className="app">
-                            <h1>Create Contact</h1>
-                            <div>
-                                <Switch>
-                                    <Route exact path="/" component={Home}/>
-                                    <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
-                                </Switch>
-                            </div>
-                        </main>
+                    {/*//  <ConnectedRouter history={history}>*/}
+                    <main id="app" className="container">
+                        <Switch>
+                            <Route exact path="/" component={Home}  />
+                            <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
+                        </Switch>
+                    </main>
                     {/*</ConnectedRouter>*/}
                 </Provider>
-             </ErrorBoundary>
+            </ErrorBoundary>
         );
     }
 }

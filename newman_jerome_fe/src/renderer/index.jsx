@@ -1,12 +1,9 @@
 import React from "react";
 import ReactDom from "react-dom";
-
 import { BrowserRouter as Router } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.css";
 
-// import {Provider} from "react-redux";
-// import store from "./redux/store";
-
-import App from "./app";
+import App from "./app.jsx";
 
 ReactDom.render(
     <Router>

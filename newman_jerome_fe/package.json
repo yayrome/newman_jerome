@@ -2,22 +2,20 @@
   "name": "newman_jerome_fe",
   "version": "0.0.1-SNAPSHOT",
   "description": "Contact App for Job Hunt",
-  "main": "src/index.js",
+  "main": "src/main/index.js",
   "scripts": {
-    "build": "webpack -p --mode production --env.PLATFORM=production --env.version=stag",
-    "dev_build": "webpack -p --mode development --env.PLATFORM=local --env.version=stag",
-    "dev": "webpack-dev-server --mode development --open --hot --inline --historyApiFallback=true --env.PLATFORM=local --env.version=stag"
+    "dev": "electron-webpack dev --env.PLATFORM=development",
+    "compile": "electron-webpack --env.PLATFORM=production",
+    "dist": "npm run compile && electron-builde --env.PLATFORM=production",
+    "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null --env.PLATFORM=production",
+    "postinstall": "electron-builder install-app-deps"
   },
   "author": "Jerome Marcellus Newman",
   "license": "ISC",
+  "electronVersion": "21.2.0",
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "bluebird": "^3.7.2",
     "bootstrap": "^4.4.1",
     "connected-react-router": "^5.0.1",
     "history": "^4.10.1",
@@ -28,27 +26,43 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
-    "sqlite": "^3.0.3",
-    "webpack": "^4.41.2",
-    "webpack-dev-server": "^3.9.0"
+    "source-map-support": "^0.5.16"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-react": "^7.7.4",
+    "aws-sdk": "^2.593.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^1.0.0",
+    "electron": "^7.0.0",
+    "electron-builder": "^21.2.0",
+    "electron-webpack": "^2.7.4",
     "html-webpack-plugin": "^3.2.0",
     "jquery": "^3.4.1",
     "mini-css-extract-plugin": "^0.5.0",
+    "node-pre-gyp": "^0.14.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "popper.js": "^1.16.0",
     "redux-devtools": "^3.5.0",
     "style-loader": "^0.23.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack-cli": "^3.3.10"
+    "webpack": "^4.41.2",
+    "webpack-target-electron-renderer": "^0.4.0"
+  },
+  "electronWebpack": {
+    "renderer": {
+      "sourceDirectory": "src/renderer",
+      "webpackConfig": "webpack.renderer.additions.js"
+    }
   }
 }
