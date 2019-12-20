@@ -5,19 +5,11 @@ import ContactForm from "../../components/contact/ContactForm";
 class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-        }
     }
     render() {
-        let {firstName, lastName, email, phone} = this.state;
-
         return (
             <div id="home">
-                <ContactForm />
+                <ContactForm title={"Create Contact"}/>
             </div>
         );
     }

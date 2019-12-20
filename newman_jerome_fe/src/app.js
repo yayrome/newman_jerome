@@ -12,7 +12,7 @@ import {
 } from "redux";
 import {Provider} from "react-redux";
 // import { routerMiddleware } from 'react-router-redux'
-import { ConnectedRouter, connectRouter  } from 'connected-react-router'
+import {ConnectedRouter, connectRouter} from 'connected-react-router'
 import {createBrowserHistory} from "history"
 // import createHistory from "history/createBrowserHistory";
 import reducers from "./redux/reducers/index";
@@ -37,6 +37,8 @@ const store = createStore(
     ),
 );
 import Home from "./modules/views/home";
+import ContactForm from "./components/contact/ContactForm";
+import ContactList from "./components/contact/ContactList";
 import ErrorBoundary from "./modules/ErrorBoundary";
 
 export default class App extends React.Component {
@@ -71,19 +73,25 @@ export default class App extends React.Component {
 
                 <Provider store={store}>
                     { /* ConnectedRouter will use the store from Provider automatically */}
-                  {/*//  <ConnectedRouter history={history}>*/}
-                        <main className="app">
-                            <h1>Create Contact</h1>
-                            <div>
-                                <Switch>
-                                    <Route exact path="/" component={Home}/>
-                                    <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
-                                </Switch>
-                            </div>
-                        </main>
+                    {/*//  <ConnectedRouter history={history}>*/}
+                    <main className="container">
+                        <div>
+                            <Switch>
+                                <Route exact path="/"
+                                       render={(props) => <ContactList title={"Contacts"}/>}/>
+                                <Route path="/index"
+                                       render={(props) => <ContactForm updateAction={true} deleteAction={true}
+                                                                       title={"Contact Form"}/>}/>
+                                <Route path="/create"
+                                       render={(props) => <ContactForm createAction={true}
+                                                                       title={"Create Contact"}/>}/>
+                                <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
+                            </Switch>
+                        </div>
+                    </main>
                     {/*</ConnectedRouter>*/}
                 </Provider>
-             </ErrorBoundary>
+            </ErrorBoundary>
         );
     }
 }
