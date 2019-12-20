@@ -28,7 +28,6 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
-    "sqlite": "^3.0.3",
     "webpack": "^4.41.2",
     "webpack-dev-server": "^3.9.0"
   },
