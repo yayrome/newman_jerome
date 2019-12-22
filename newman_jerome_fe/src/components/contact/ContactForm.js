@@ -1,17 +1,18 @@
 import React from "react"
-import {useHistory} from "react-router-dom";
-import contactDao from "../../modules/dao/contactDao";
+import { withRouter } from "react-router";
+import ContactDao from "../../modules/dao/contactDao";
 
-export default class ContactForm extends React.Component {
+class ContactForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
+            firstName: this.props.firstName || "",
+            lastName: this.props.lastName || "",
+            email: this.props.email || "",
+            phone: this.props.phone || ""
         };
 
+        this.backToContacts = this.backToContacts.bind(this);
         this.createContact = this.createContact.bind(this);
         this.deleteContact = this.deleteContact.bind(this);
         this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -21,24 +22,27 @@ export default class ContactForm extends React.Component {
         const key = event.target.id;
         const value = event.target.value;
 
-        this.setState({key, value})
+        let obj = {};
+        obj[key] = value;
+        this.setState(obj);
     }
 
     backToContacts(e) {
         e.preventDefault();
-        let history = useHistory();
+        console.log(this.props);
+        const { history } = this.props;
         history.push("/");
     }
 
     createContact(e) {
         e.preventDefault();
-        const {firstName, lastName, email, phone} = this.state;
+        // const {firstName, lastName, email, phone} = this.state;
         // create new contact
         const contactDao = new ContactDao();
         const response = contactDao.createContact(e);
-
-        let history = useHistory();
-        history.push("/");
+        console.log(response);
+        const { history } = this.props;
+        history.push("/index");
     }
 
     deleteContact(e) {
@@ -46,12 +50,14 @@ export default class ContactForm extends React.Component {
         // delete contact
         console.log("delete contact");
         console.log(e.target.id);
-        let history = useHistory();
+        const { history } = this.props;
         history.push("/");
     }
 
     render() {
         const {createAction, deleteAction, updateAction, title} = this.props;
+        const {firstName, lastName, email, phone} = this.state;
+        const disableFirstName = updateAction;
 
         return (
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
@@ -62,24 +68,28 @@ export default class ContactForm extends React.Component {
                             <div className="row">
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="firstName">First Name</label>
-                                    <input id="firstName" type="text" className="form-control"
-                                           onChange={(e) => this.handleTextFieldChange(e)}/>
+                                    <input id="firstName" type="text" className="form-control" disabled={disableFirstName}
+                                           value={firstName}
+                                           onChange={this.handleTextFieldChange} />
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="lastName">Last Name</label>
                                     <input id="lastName" type="text" className="form-control"
-                                           onChange={(e) => this.handleTextFieldChange(e)}/>
+                                           value={lastName}
+                                           onChange={this.handleTextFieldChange} />
                                 </div>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="email">Email</label>
                                 <input id="email" className="form-control" type="text" placeholder="you@example.com"
-                                       onChange={(e) => this.handleTextFieldChange(e)}/>
+                                       value={email}
+                                       onChange={this.handleTextFieldChange} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="phone">Phone</label>
                                 <input id="phone" type="text" className="form-control" placeholder="Phone Number"
-                                       onChange={(e) => this.handleTextFieldChange(e)}/>
+                                       value={phone}
+                                       onChange={this.handleTextFieldChange} />
                             </div>
                             <div className="mb-3">
                                 <div className="clearfix">
@@ -91,7 +101,7 @@ export default class ContactForm extends React.Component {
 
                                     {updateAction &&
                                     <button id="createButton" className="btn btn-primary float-right ml-1"
-                                            onClick={this.createContact}>Create
+                                            onClick={this.createContact}>Update
                                     </button>
                                     }
 
@@ -114,3 +124,4 @@ export default class ContactForm extends React.Component {
         );
     }
 }
+export default withRouter(ContactForm);

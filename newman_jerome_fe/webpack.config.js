@@ -27,6 +27,7 @@ module.exports = (env) => {
             path.resolve(__dirname, "src", "index.js")],
         output: {
             path: PATHS.build,
+            // publicPath: path.resolve(__dirname, "assets"),
             filename: "bundle.js",
         },
         resolve: {
@@ -55,6 +56,10 @@ module.exports = (env) => {
             ],
         },
         plugins: [
+            new MiniCssExtractPlugin({
+                filename: PLATFORM !== "production" ? '[name].css' : '[name].[hash].css',
+                chunkFilename: PLATFORM !== "production" ? '[id].css' : '[id].[hash].css',
+            }),
             new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns: ["assets", PATHS.build],
             }),
@@ -69,6 +74,7 @@ module.exports = (env) => {
         ],
         devServer: {
             contentBase: "./src",
+            port: 9000,
         },
     }
 

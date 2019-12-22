@@ -1,20 +1,32 @@
 import React from "react"
-import {useHistory} from "react-router-dom";
+import { withRouter } from "react-router";
 
-export default class ContactList extends React.Component {
+class ContactList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             list: [],
         };
+
+        this.goToCreateContact = this.goToCreateContact.bind(this);
     }
 
+
+
     goToContactForm(contact) {
-        let history = useHistory();
-        history.push({
-            pathname: "/index",
-            state: { contact: contact}
-        });
+        // let history = useHistory();
+        // history.push({
+        //     pathname: "/index",
+        //     state: { contact: contact}
+        // });
+    }
+
+    goToCreateContact(e) {
+        e.preventDefault();
+        const { history } = this.props;
+        console.log(history);
+            history.push("/create");
+
     }
 
     render() {
@@ -37,6 +49,11 @@ export default class ContactList extends React.Component {
                                         <div className="col">
                                             <input type="text" className="form-control" placeholder="Last name"/>
                                         </div>
+                                        <div>
+                                            <button id="createButton" className="btn btn-primary ml-1"
+                                                    onClick={this.goToCreateContact}>Create
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -51,7 +68,7 @@ export default class ContactList extends React.Component {
                             </thead>
                             <tbody>
                             {list.map(obj => {
-                                <tr onClick={this.goToContactForm(obj)}>
+                                <tr onClick={this.goToContactForm}>
                                     <td>{obj.id}</td>
                                     <td>{obj.firstName}</td>
                                     <td>{obj.lastName}</td>
@@ -65,3 +82,5 @@ export default class ContactList extends React.Component {
         );
     }
 }
+
+export default withRouter(ContactList);

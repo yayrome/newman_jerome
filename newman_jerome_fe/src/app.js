@@ -4,39 +4,6 @@ import {
     Switch,
 } from "react-router-dom";
 
-import {
-    createStore,
-    combineReducers,
-    compose,
-    applyMiddleware,
-} from "redux";
-import {Provider} from "react-redux";
-// import { routerMiddleware } from 'react-router-redux'
-import {ConnectedRouter, connectRouter} from 'connected-react-router'
-import {createBrowserHistory} from "history"
-// import createHistory from "history/createBrowserHistory";
-import reducers from "./redux/reducers/index";
-
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// Create a history of your choosing (we"re using a browser history in this case)
-const history = createBrowserHistory();
-
-// Add the reducer to your store on the `router` key
-// Also apply our middleware for navigating
-/* eslint-disable no-underscore-dangle */
-const store = createStore(
-    combineReducers({
-        ...reducers,
-        router: connectRouter(history),
-    }),
-    composeEnhancer(
-        applyMiddleware(
-            // routerMiddleware(history), // for dispatching history actions
-            // ... other middlewares ...
-        ),
-    ),
-);
-import Home from "./modules/views/home";
 import ContactForm from "./components/contact/ContactForm";
 import ContactList from "./components/contact/ContactList";
 import ErrorBoundary from "./modules/ErrorBoundary";
@@ -71,26 +38,26 @@ export default class App extends React.Component {
         return (
             <ErrorBoundary>
 
-                <Provider store={store}>
+                {/*<Provider store={store}>*/}
                     { /* ConnectedRouter will use the store from Provider automatically */}
-                    {/*//  <ConnectedRouter history={history}>*/}
+                    {/*<ConnectedRouter history={history}>*/}
                     <main className="container">
                         <div>
                             <Switch>
                                 <Route exact path="/"
-                                       render={(props) => <ContactList title={"Contacts"}/>}/>
+                                       render={(props) => <ContactList {...props} title={"Contacts"}/>}/>
                                 <Route path="/index"
-                                       render={(props) => <ContactForm updateAction={true} deleteAction={true}
+                                       render={(props) => <ContactForm {...props} disableFirst={true} updateAction={true} deleteAction={true}
                                                                        title={"Contact Form"}/>}/>
                                 <Route path="/create"
-                                       render={(props) => <ContactForm createAction={true}
+                                       render={(props) => <ContactForm {...props} createAction={true}
                                                                        title={"Create Contact"}/>}/>
                                 <Route render={() => (<div> Sorry, this page does not exist. </div>)}/>
                             </Switch>
                         </div>
                     </main>
                     {/*</ConnectedRouter>*/}
-                </Provider>
+                {/*</Provider>*/}
             </ErrorBoundary>
         );
     }

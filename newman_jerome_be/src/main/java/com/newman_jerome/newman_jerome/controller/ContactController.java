@@ -2,6 +2,7 @@ package com.newman_jerome.newman_jerome.controller;
 
 import com.newman_jerome.newman_jerome.model.Contact;
 import com.newman_jerome.newman_jerome.repository.ContactRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -63,6 +65,26 @@ public class ContactController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         contactRepository.deleteById(id);
+    }
+
+    @GetMapping("firstName/{firstName}/lastName/{lastName}")
+    public List<Contact> searchForContactByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName) {
+        List<Contact> result = new ArrayList<>();
+        boolean first = StringUtils.isBlank(firstName); // do we skip firstName search
+        boolean last = StringUtils.isBlank(lastName); // do we skip lastName search
+
+        if (first && last){
+            result = contactRepository.searchForContactsByFirstAndLast(firstName, lastName);
+        } else if (first) {
+            result = contactRepository.findByFirstNameStartsWith(firstName);
+        } else if (last) {
+            result = contactRepository.findByLastNameStartsWith(lastName);
+        } else {
+            // do nothing
+        }
+
+        return result;
+
     }
 
     private Contact doesContactExist(Long contactId) throws  ResponseStatusException{

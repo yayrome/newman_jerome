@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class ContactDao {
     getOneContactById(id) {
-        axios.get(`/contacts/${id}`)
+        axios.get(`localhost:8080/contacts/${id}`)
             .then(function (response) {
                 // handle success
                 console.log(response);
@@ -16,7 +16,7 @@ export default class ContactDao {
     }
 
     getAllContacts() {
-        axios.get(`/contacts`)
+        axios.get(`localhost:8080/contacts`)
             .then(function (response) {
                 // handle success
                 console.log(response);
@@ -30,7 +30,7 @@ export default class ContactDao {
     }
 
     createContact(data) {
-        axios.post(`/contacts`,{...data})
+        axios.post(`localhost:8080/contacts`, data)
             .then(function (response) {
                 // handle success
                 console.log(response);
@@ -44,7 +44,7 @@ export default class ContactDao {
     }
 
     updateContact(id, data) {
-        axios.put(`/contacts/${id}`,{...data})
+        axios.put(`localhost:8080/contacts/${id}`, data)
             .then(function (response) {
                 // handle success
                 console.log(response);
@@ -58,7 +58,7 @@ export default class ContactDao {
     }
 
     deleteContact(id) {
-        axios.delete(`/contacts/${id}`)
+        axios.delete(`$localhost:8080/contacts/${id}`)
             .then(function (response) {
                 // handle success
                 console.log(response);
