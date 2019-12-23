@@ -11,7 +11,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 	</properties>
 	<modules>
-		<module>../newman_jerome_fe</module>
+<!--		<module>../newman_jerome_fe</module>-->
 		<module>../newman_jerome_be</module>
 	</modules>
 	<build>

@@ -1,37 +1,72 @@
 import React from "react"
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
+import {getOneContactById, searchContacts} from "../../modules/dao/contactDao";
+
 
 class ContactList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            firstName: '',
+            lastName: '',
             list: [],
         };
 
+        this.goToContactForm = this.goToContactForm.bind(this);
         this.goToCreateContact = this.goToCreateContact.bind(this);
+        this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
+        this.searchContacts = this.searchContacts.bind(this);
     }
 
 
+    goToContactForm(id) {
+        const {history} = this.props;
 
-    goToContactForm(contact) {
-        // let history = useHistory();
-        // history.push({
-        //     pathname: "/index",
-        //     state: { contact: contact}
-        // });
+        getOneContactById(id).then(response =>{
+            history.push({
+                pathname: "/index",
+                state: response.data
+            });
+        });
+
+
+    }
+
+    searchContacts(e) {
+        e.preventDefault();
+        const {firstName, lastName} = this.state;
+        // const contactDao = new ContactDao();
+
+        const obj = {
+            firstName: firstName,
+            lastName: lastName
+        };
+
+        searchContacts(obj).then(response => (this.setState({list: response.data})));
     }
 
     goToCreateContact(e) {
         e.preventDefault();
-        const { history } = this.props;
-        console.log(history);
-            history.push("/create");
+        const {history} = this.props;
+        history.push({
+            pathname: "/create",
+            state: {}
+        });
 
+    }
+
+    handleTextFieldChange(e) {
+        const key = e.target.id;
+        const value = e.target.value;
+
+        let obj = {};
+        obj[key] = value;
+        this.setState(obj);
     }
 
     render() {
         const {title} = this.props;
-        const {list} = this.state;
+        const {firstName, lastName, list} = this.state;
 
         return (
             <div>
@@ -44,12 +79,19 @@ class ContactList extends React.Component {
                                 <form>
                                     <div className="row">
                                         <div className="col">
-                                            <input type="text" className="form-control" placeholder="First name"/>
+                                            <input id="firstName" type="text" className="form-control"
+                                                   placeholder="First name"
+                                                   onChange={this.handleTextFieldChange} value={firstName}/>
                                         </div>
                                         <div className="col">
-                                            <input type="text" className="form-control" placeholder="Last name"/>
+                                            <input id="lastName" type="text" className="form-control"
+                                                   placeholder="Last name"
+                                                   onChange={this.handleTextFieldChange} value={lastName}/>
                                         </div>
                                         <div>
+                                            <button id="searchButton" className="btn btn-secondary ml-1"
+                                                    onClick={this.searchContacts}>Search
+                                            </button>
                                             <button id="createButton" className="btn btn-primary ml-1"
                                                     onClick={this.goToCreateContact}>Create
                                             </button>
@@ -67,13 +109,16 @@ class ContactList extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {list.map(obj => {
-                                <tr onClick={this.goToContactForm}>
-                                    <td>{obj.id}</td>
-                                    <td>{obj.firstName}</td>
-                                    <td>{obj.lastName}</td>
-                                </tr>
-                            })}
+                            {list.map(function(obj) {
+                                return (
+                                    <tr id={obj.id} onClick={() => this.goToContactForm(obj.id)}>
+                                        <td>{obj.id}</td>
+                                        <td>{obj.firstName}</td>
+                                        <td>{obj.lastName}</td>
+                                    </tr>
+                                );
+                            }.bind(this))
+                            }
                             </tbody>
                         </table>
                     </div>

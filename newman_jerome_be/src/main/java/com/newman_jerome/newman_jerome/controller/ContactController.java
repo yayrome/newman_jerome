@@ -5,6 +5,7 @@ import com.newman_jerome.newman_jerome.repository.ContactRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/contacts")
 public class ContactController {
@@ -67,18 +70,20 @@ public class ContactController {
         contactRepository.deleteById(id);
     }
 
-    @GetMapping("firstName/{firstName}/lastName/{lastName}")
-    public List<Contact> searchForContactByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName) {
+    @PostMapping("/search")
+    public List<Contact> searchForContactByFirstNameAndLastName(@RequestBody HashMap<String, String> json) {
         List<Contact> result = new ArrayList<>();
-        boolean first = StringUtils.isBlank(firstName); // do we skip firstName search
-        boolean last = StringUtils.isBlank(lastName); // do we skip lastName search
+        String firstName = json.get("firstName");
+        String lastName = json.get("lastName");
+        boolean first = StringUtils.isNotBlank(firstName); // do we skip firstName search
+        boolean last = StringUtils.isNotBlank(lastName); // do we skip lastName search
 
         if (first && last){
-            result = contactRepository.searchForContactsByFirstAndLast(firstName, lastName);
+            result = contactRepository.findByFirstNameStartsWithIgnoreCaseAndLastNameStartsWithIgnoreCase(firstName, lastName);
         } else if (first) {
-            result = contactRepository.findByFirstNameStartsWith(firstName);
+            result = contactRepository.findByFirstNameStartsWithIgnoreCase(firstName);
         } else if (last) {
-            result = contactRepository.findByLastNameStartsWith(lastName);
+            result = contactRepository.findByLastNameStartsWithIgnoreCase(lastName);
         } else {
             // do nothing
         }

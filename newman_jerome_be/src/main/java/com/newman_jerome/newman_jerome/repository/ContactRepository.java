@@ -9,10 +9,11 @@ import java.util.List;
 
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {
-    @Query("SELECT DISTINCT c FROM  Contact c WHERE c.firstName LIKE ?1% AND c.lastName LIKE ?2% ")
-    List<Contact> searchForContactsByFirstAndLast(String firstName, String lastName);
+//    @Query("SELECT DISTINCT c FROM  Contact c WHERE UPPER(c.firstName) LIKE upper(?1%) AND UPPER(c.lastName) LIKE upper(?2%) ")
+//    List<Contact> searchForContactsByFirstAndLastIgnoreCase(String firstName, String lastName);
+    List<Contact> findByFirstNameStartsWithIgnoreCaseAndLastNameStartsWithIgnoreCase(String firstName, String lastName);
 
-    List<Contact> findByFirstNameStartsWith(String firstName);
+    List<Contact> findByFirstNameStartsWithIgnoreCase(String firstName);
 
-    List<Contact> findByLastNameStartsWith(String lastName);
+    List<Contact> findByLastNameStartsWithIgnoreCase(String lastName);
 }
