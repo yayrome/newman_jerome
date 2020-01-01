@@ -9,15 +9,7 @@ const PATHS = {
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-//
-// module.exports = {
-//     entry: './app/index.js',
-//
-//     output: {
-//         path: PATHS.build,
-//         filename: 'app-bundle.js'
-//     }
-// };
+
 
 module.exports = (env) => {
     const {PLATFORM, VERSION} = env;
@@ -27,23 +19,18 @@ module.exports = (env) => {
             path.resolve(__dirname, "src", "index.js")],
         output: {
             path: PATHS.build,
-            // publicPath: path.resolve(__dirname, "assets"),
             filename: "bundle.js",
         },
         resolve: {
             extensions: [".js", ".jsx"],
-            // alias: {
-            //     styles: path.resolve(__dirname, "src", "styles"),
-            // },
         },
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
                     use: {
                         loader: "babel-loader",
-                        options: {presets: ["@babel/react", "@babel/env"]},
                     },
                 },
                 {

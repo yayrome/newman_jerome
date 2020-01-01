@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:8080/contacts";
+const url = "http://localhost:8080/api/v1/contacts";
 const config = {
     headers: {
         'Access-Control-Allow-Origin': '*',

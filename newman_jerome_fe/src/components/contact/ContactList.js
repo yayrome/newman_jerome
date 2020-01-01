@@ -111,7 +111,8 @@ class ContactList extends React.Component {
                             <tbody>
                             {list.map(function(obj) {
                                 return (
-                                    <tr id={obj.id} onClick={() => this.goToContactForm(obj.id)}>
+                                    <tr id={obj.id} style={{cursor: "pointer"}}
+                                        onClick={() => this.goToContactForm(obj.id)}>
                                         <td>{obj.id}</td>
                                         <td>{obj.firstName}</td>
                                         <td>{obj.lastName}</td>

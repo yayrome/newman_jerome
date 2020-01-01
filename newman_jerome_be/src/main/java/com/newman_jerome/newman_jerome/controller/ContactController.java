@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/contacts")
+@RequestMapping("/api/v1/contacts")
 public class ContactController {
     private ContactRepository contactRepository;
 

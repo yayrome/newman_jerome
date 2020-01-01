@@ -7,30 +7,29 @@
     <groupId>com.newman_jerome</groupId>
     <artifactId>newman_jerome_be</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>newman_jerome</name>
+    <name>newman_jerome_be</name>
     <description>Demo project for Spring Boot</description>
 
+    <parent>
+        <groupId>com.newman_jerome</groupId>
+        <artifactId>newman_jerome</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+        <java.version>11</java.version>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
     </properties>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--            <version>2.2.2.RELEASE</version>-->
-<!--        </dependency>-->
+<!--       -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -70,11 +69,11 @@
             <artifactId>sqlite-jdbc</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.newman_jerome</groupId>-->
-<!--            <artifactId>newman_jerome_fe</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.newman_jerome</groupId>
+            <artifactId>newman_jerome_fe</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
 
 
@@ -83,17 +82,30 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/resources/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${main.basedir}/newman_jerome_fe/target/classes/META-INF/resources/webjars/newman_jerome_fe/0.0.1-SNAPSHOT</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
