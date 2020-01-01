@@ -33,3 +33,11 @@ build/
 ### NPM ###
 node/
 node_modules/
+
+
+newman_jerome_be/target/
+
+newman_jerome_fe/node/
+newman_jerome_fe/node_modules/
+newman_jerome_fe/npm/
+newman_jerome_fe/target/
