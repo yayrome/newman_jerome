@@ -37,10 +37,6 @@ export default class App extends React.Component {
 
         return (
             <ErrorBoundary>
-
-                {/*<Provider store={store}>*/}
-                    { /* ConnectedRouter will use the store from Provider automatically */}
-                    {/*<ConnectedRouter history={history}>*/}
                     <main className="container">
                         <div>
                             <Switch>
@@ -56,8 +52,6 @@ export default class App extends React.Component {
                             </Switch>
                         </div>
                     </main>
-                    {/*</ConnectedRouter>*/}
-                {/*</Provider>*/}
             </ErrorBoundary>
         );
     }

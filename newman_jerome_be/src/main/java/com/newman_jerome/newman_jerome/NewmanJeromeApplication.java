@@ -17,15 +17,4 @@ public class NewmanJeromeApplication {
     public static void main(String[] args) {
         SpringApplication.run(NewmanJeromeApplication.class, args);
     }
-
-    @PostConstruct
-    public void log_jerome() {
-        System.out.println("ClassLoader");
-        System.out.println("**********************************************************************");
-        System.out.println("**********************************************************************");
-        System.out.println(System.getProperty("java.class.path").replace(':', '\n'));
-        System.out.println("**********************************************************************");
-        System.out.println("**********************************************************************");
-    }
-
 }
