@@ -1,3 +1,7 @@
+#Requirements
+* Node and NPM
+* Java 11
+* Maven
 
 #How To Run Application
 Go to root directory and run maven install
