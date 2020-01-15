@@ -1,6 +1,6 @@
 import React from "react"
 import {withRouter} from "react-router";
-import {getOneContactById, searchContacts} from "../../modules/dao/contactDao";
+import {getOneContactById, searchContacts} from "../../dao/contactDao";
 
 
 class ContactList extends React.Component {

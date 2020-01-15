@@ -1,5 +1,5 @@
 import React from 'react';
-import ContactForm from "../../components/contact/ContactForm";
+import ContactForm from "../components/contact/ContactForm";
 
 /* eslint-disable react/prefer-stateless-function */
 class Home extends React.Component {

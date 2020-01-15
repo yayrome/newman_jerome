@@ -1,6 +1,6 @@
 import React from "react"
 import {withRouter} from "react-router";
-import {deleteContact, createContact, updateContact} from "../../modules/dao/contactDao";
+import {deleteContact, createContact, updateContact} from "../../dao/contactDao";
 
 class ContactForm extends React.Component {
     constructor(props) {

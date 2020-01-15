@@ -4,8 +4,8 @@ import {
     Switch,
 } from "react-router-dom";
 
-import ContactForm from "./components/contact/ContactForm";
-import ContactList from "./components/contact/ContactList";
+import ContactForm from "./modules/components/contact/ContactForm";
+import ContactList from "./modules/components/contact/ContactList";
 import ErrorBoundary from "./modules/ErrorBoundary";
 
 export default class App extends React.Component {
